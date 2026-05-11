@@ -1,0 +1,1704 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CUDICORE — Sistemas Digitais Inteligentes</title>
+    <meta name="description" content="CUDICORE desenvolve sistemas inteligentes, automações e infraestrutura digital moderna para empresas, instituições e empreendedores. Malanje, Angola." />
+    <meta name="theme-color" content="#0A0F1C" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="CUDICORE" />
+    <link rel="icon" href="arquivos/logo-oficial.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0A0F1C;
+            color: #EAEAEA;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0A0F1C; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #1DA1F2, #6C4BFF); border-radius: 3px; }
+
+        :root {
+            --blue: #1DA1F2;
+            --purple: #6C4BFF;
+            --dark: #0A0F1C;
+            --light: #EAEAEA;
+            --gradient: linear-gradient(135deg, #1DA1F2, #6C4BFF);
+            --font-heading: 'Poppins', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        #preloader {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            background: #0A0F1C;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.6s, visibility 0.6s;
+        }
+        #preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        .loader-ring {
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-top-color: #1DA1F2;
+            border-bottom-color: #6C4BFF;
+            animation: spin 1s linear infinite;
+            position: relative;
+        }
+        .loader-ring::before {
+            content: '';
+            position: absolute; inset: 5px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-left-color: #1DA1F2;
+            border-right-color: #6C4BFF;
+            animation: spin 1.5s linear infinite reverse;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            padding: 16px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.4s;
+            background: transparent;
+        }
+        nav.scrolled {
+            background: rgba(10, 15, 28, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(109, 75, 255, 0.1);
+            padding: 12px 40px;
+        }
+        .nav-logo { height: 36px; width: auto; }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            list-style: none;
+        }
+        .nav-links a {
+            color: rgba(234, 234, 234, 0.7);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+            letter-spacing: 0.3px;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px; left: 0;
+            width: 0; height: 2px;
+            background: var(--gradient);
+            transition: width 0.3s;
+            border-radius: 1px;
+        }
+        .nav-links a:hover { color: #EAEAEA; }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-cta {
+            padding: 8px 20px;
+            border-radius: 50px;
+            background: var(--gradient);
+            color: #fff !important;
+            font-weight: 600 !important;
+            transition: transform 0.3s, box-shadow 0.3s !important;
+        }
+        .nav-cta::after { display: none !important; }
+        .nav-cta:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(109, 75, 255, 0.4); }
+        .nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+        .nav-toggle span {
+            width: 26px; height: 2px;
+            background: #EAEAEA;
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+        .nav-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .nav-toggle.active span:nth-child(2) { opacity: 0; }
+        .nav-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+        #particles-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        section {
+            position: relative;
+            z-index: 1;
+            padding: 100px 24px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section-label {
+            font-family: var(--font-heading);
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+            display: inline-block;
+        }
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 700;
+            line-height: 1.15;
+            margin-bottom: 20px;
+        }
+        .section-desc {
+            font-size: 1.05rem;
+            color: rgba(234, 234, 234, 0.65);
+            max-width: 620px;
+            line-height: 1.7;
+        }
+
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 24px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        #hero::before {
+            content: '';
+            position: absolute;
+            top: -30%; left: -20%;
+            width: 80%; height: 80%;
+            background: radial-gradient(circle at 30% 50%, rgba(29, 161, 242, 0.08), transparent 60%);
+            pointer-events: none;
+        }
+        #hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%; right: -20%;
+            width: 80%; height: 80%;
+            background: radial-gradient(circle at 70% 50%, rgba(108, 75, 255, 0.08), transparent 60%);
+            pointer-events: none;
+        }
+        .hero-circuit {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(90deg, rgba(29,161,242,0.03) 1px, transparent 1px),
+                linear-gradient(0deg, rgba(108,75,255,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero-content {
+            text-align: center;
+            max-width: 900px;
+            position: relative;
+            z-index: 2;
+        }
+        .hero-logo {
+            height: 200px;
+            width: auto;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 40px rgba(29,161,242,0.4));
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 18px;
+            border-radius: 50px;
+            border: 1px solid rgba(109, 75, 255, 0.25);
+            background: rgba(109, 75, 255, 0.08);
+            backdrop-filter: blur(10px);
+            font-size: 0.8rem;
+            color: rgba(234, 234, 234, 0.8);
+            margin-bottom: 28px;
+            animation: fadeInUp 0.8s ease;
+        }
+        .hero-badge .dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: #1DA1F2;
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; box-shadow: 0 0 6px #1DA1F2; }
+            50% { opacity: 0.4; box-shadow: 0 0 12px #1DA1F2; }
+        }
+        .hero-title {
+            font-family: var(--font-heading);
+            font-size: clamp(2.4rem, 6.5vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            animation: fadeInUp 0.8s ease 0.15s both;
+        }
+        .hero-title .gradient-text {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-sub {
+            font-size: clamp(1rem, 1.5vw, 1.2rem);
+            color: rgba(234, 234, 234, 0.6);
+            max-width: 640px;
+            margin: 0 auto 36px;
+            line-height: 1.7;
+            animation: fadeInUp 0.8s ease 0.3s both;
+        }
+        .hero-buttons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease 0.45s both;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background: var(--gradient);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(109, 75, 255, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 35px rgba(109, 75, 255, 0.45);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: #EAEAEA;
+            border: 1px solid rgba(234, 234, 234, 0.2);
+        }
+        .btn-secondary:hover {
+            border-color: rgba(109, 75, 255, 0.5);
+            background: rgba(109, 75, 255, 0.08);
+            transform: translateY(-2px);
+        }
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 56px;
+            animation: fadeInUp 0.8s ease 0.6s both;
+        }
+        .hero-stat { text-align: center; }
+        .hero-stat-value {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-stat-label {
+            font-size: 0.8rem;
+            color: rgba(234, 234, 234, 0.45);
+            margin-top: 4px;
+        }
+        .hero-visual {
+            position: absolute;
+            right: -5%; top: 50%;
+            transform: translateY(-50%);
+            width: 550px;
+            height: 550px;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.4;
+        }
+        .hero-visual .orb {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid rgba(29,161,242,0.15);
+            animation: float 8s ease-in-out infinite;
+        }
+        .hero-visual .orb:nth-child(1) { width: 100%; height: 100%; animation-delay: 0s; }
+        .hero-visual .orb:nth-child(2) { width: 75%; height: 75%; top: 12.5%; left: 12.5%; animation-delay: -2s; border-color: rgba(108,75,255,0.15); }
+        .hero-visual .orb:nth-child(3) { width: 50%; height: 50%; top: 25%; left: 25%; animation-delay: -4s; border-color: rgba(29,161,242,0.2); }
+        .hero-visual .orb:nth-child(4) { width: 25%; height: 25%; top: 37.5%; left: 37.5%; animation-delay: -6s; border-color: rgba(108,75,255,0.2); }
+        .hero-visual .orb-inner {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: var(--gradient);
+            box-shadow: 0 0 30px rgba(29,161,242,0.5);
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            33% { transform: translateY(-20px) rotate(2deg); }
+            66% { transform: translateY(10px) rotate(-1deg); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .circuit-divider {
+            position: relative;
+            height: 80px;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .circuit-divider path {
+            fill: none;
+            stroke: url(#circuit-gradient);
+            stroke-width: 1.5;
+            opacity: 0.3;
+        }
+
+        #about {
+            background: linear-gradient(180deg, #0A0F1C 0%, rgba(10,15,28,0.98) 100%);
+        }
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        .about-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+        }
+        .about-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            width: 100%;
+        }
+        .about-card {
+            padding: 24px;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            transition: all 0.4s;
+            text-align: center;
+        }
+        .about-card:hover {
+            border-color: rgba(109, 75, 255, 0.2);
+            background: rgba(109, 75, 255, 0.05);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 40px rgba(109, 75, 255, 0.1);
+        }
+        .about-card-icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+        .about-card h4 {
+            font-family: var(--font-heading);
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .about-card p {
+            font-size: 0.82rem;
+            color: rgba(234, 234, 234, 0.5);
+            line-height: 1.5;
+        }
+
+        #services {
+            background: linear-gradient(180deg, rgba(10,15,28,0.98), #0A0F1C);
+        }
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-top: 48px;
+        }
+        .service-card {
+            padding: 36px 28px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            backdrop-filter: blur(12px);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+            cursor: default;
+        }
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            right: 0; bottom: 0;
+            border-radius: 20px;
+            background: var(--gradient);
+            opacity: 0;
+            transition: opacity 0.5s;
+            z-index: 0;
+        }
+        .service-card:hover::before { opacity: 0.06; }
+        .service-card::after {
+            content: '';
+            position: absolute;
+            top: -1px; left: -1px;
+            right: -1px; bottom: -1px;
+            border-radius: 21px;
+            background: var(--gradient);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        .service-card:hover::after { opacity: 0.3; }
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(109, 75, 255, 0.15);
+        }
+        .service-card > * { position: relative; z-index: 1; }
+        .service-icon {
+            width: 52px; height: 52px;
+            border-radius: 14px;
+            background: rgba(109, 75, 255, 0.1);
+            border: 1px solid rgba(109, 75, 255, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            transition: all 0.4s;
+        }
+        .service-card:hover .service-icon {
+            background: rgba(29, 161, 242, 0.15);
+            border-color: rgba(29, 161, 242, 0.3);
+            box-shadow: 0 0 20px rgba(29, 161, 242, 0.15);
+        }
+        .service-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .service-card .service-sub {
+            font-size: 0.75rem;
+            color: rgba(109, 75, 255, 0.7);
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        .service-card p {
+            font-size: 0.88rem;
+            color: rgba(234, 234, 234, 0.5);
+            line-height: 1.6;
+        }
+        .service-card .service-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 16px;
+        }
+        .service-card .service-tags span {
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            background: rgba(29, 161, 242, 0.1);
+            border: 1px solid rgba(29, 161, 242, 0.1);
+            color: rgba(234, 234, 234, 0.6);
+        }
+
+        #tech {
+            background: linear-gradient(180deg, #0A0F1C, rgba(10,15,28,0.95));
+        }
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 20px;
+            margin-top: 48px;
+        }
+        .tech-item {
+            padding: 24px 16px;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            text-align: center;
+            transition: all 0.4s;
+        }
+        .tech-item:hover {
+            border-color: rgba(109, 75, 255, 0.3);
+            background: rgba(109, 75, 255, 0.05);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(109, 75, 255, 0.1);
+        }
+        .tech-item .tech-icon {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        .tech-item span {
+            display: block;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: rgba(234, 234, 234, 0.7);
+        }
+        .tech-connections {
+            position: relative;
+            margin-top: 40px;
+            text-align: center;
+        }
+        .tech-connections p {
+            font-size: 0.85rem;
+            color: rgba(234, 234, 234, 0.35);
+            max-width: 500px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        #differentials {
+            background: linear-gradient(180deg, rgba(10,15,28,0.95), #0A0F1C);
+        }
+        .diff-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-top: 48px;
+        }
+        .diff-card {
+            padding: 28px 24px;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+        .diff-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 3px; height: 0;
+            background: var(--gradient);
+            transition: height 0.4s;
+            border-radius: 0 2px 2px 0;
+        }
+        .diff-card:hover::before { height: 100%; }
+        .diff-card:hover {
+            border-color: rgba(109, 75, 255, 0.15);
+            background: rgba(109, 75, 255, 0.03);
+            transform: translateX(6px);
+        }
+        .diff-card .diff-icon {
+            font-size: 1.6rem;
+            margin-bottom: 12px;
+        }
+        .diff-card h4 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .diff-card p {
+            font-size: 0.85rem;
+            color: rgba(234, 234, 234, 0.5);
+            line-height: 1.6;
+        }
+
+        #portfolio {
+            background: linear-gradient(180deg, #0A0F1C, rgba(10,15,28,0.98));
+        }
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 28px;
+            margin-top: 48px;
+        }
+        .portfolio-card {
+            border-radius: 20px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            cursor: default;
+        }
+        .portfolio-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(109, 75, 255, 0.2);
+            box-shadow: 0 20px 60px rgba(109, 75, 255, 0.1);
+        }
+        .portfolio-preview {
+            height: 220px;
+            background: linear-gradient(135deg, rgba(29,161,242,0.05), rgba(108,75,255,0.05));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .portfolio-preview .mockup-icon {
+            font-size: 4rem;
+            opacity: 0.3;
+            transition: opacity 0.4s;
+        }
+        .portfolio-card:hover .mockup-icon { opacity: 0.6; }
+        .portfolio-preview .mockup-lines {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(90deg, transparent 49.5%, rgba(29,161,242,0.05) 50%, transparent 50.5%),
+                linear-gradient(0deg, transparent 49.5%, rgba(108,75,255,0.05) 50%, transparent 50.5%);
+            background-size: 30px 30px;
+        }
+        .portfolio-info {
+            padding: 28px;
+        }
+        .portfolio-info .portfolio-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            background: rgba(109, 75, 255, 0.1);
+            color: rgba(109, 75, 255, 0.8);
+            margin-bottom: 12px;
+        }
+        .portfolio-info h3 {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .portfolio-info p {
+            font-size: 0.88rem;
+            color: rgba(234, 234, 234, 0.5);
+            line-height: 1.6;
+        }
+        .portfolio-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 14px;
+        }
+        .portfolio-tags span {
+            padding: 3px 10px;
+            border-radius: 50px;
+            font-size: 0.68rem;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
+            color: rgba(234, 234, 234, 0.45);
+        }
+
+        #contact {
+            background: linear-gradient(180deg, rgba(10,15,28,0.98), #0A0F1C);
+        }
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+        .contact-info-box {
+            padding: 32px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .contact-info-box h3 {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .contact-info-box > p {
+            font-size: 0.9rem;
+            color: rgba(234, 234, 234, 0.5);
+            margin-bottom: 24px;
+        }
+        .contact-detail {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+        .contact-detail .icon {
+            width: 44px; height: 44px;
+            border-radius: 12px;
+            background: rgba(109, 75, 255, 0.08);
+            border: 1px solid rgba(109, 75, 255, 0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+        .contact-detail .text strong {
+            display: block;
+            font-size: 0.82rem;
+            color: rgba(234, 234, 234, 0.4);
+            font-weight: 400;
+            margin-bottom: 2px;
+        }
+        .contact-detail .text span {
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: #EAEAEA;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            border-color: rgba(109, 75, 255, 0.4);
+            background: rgba(109, 75, 255, 0.05);
+            box-shadow: 0 0 20px rgba(109, 75, 255, 0.05);
+        }
+        .contact-form input::placeholder,
+        .contact-form textarea::placeholder {
+            color: rgba(234, 234, 234, 0.25);
+        }
+        .contact-form textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+        .contact-form .btn {
+            align-self: flex-start;
+        }
+        .form-message {
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            display: none;
+        }
+        .form-message.success {
+            display: block;
+            background: rgba(29, 161, 242, 0.1);
+            border: 1px solid rgba(29, 161, 242, 0.2);
+            color: #1DA1F2;
+        }
+        .form-message.error {
+            display: block;
+            background: rgba(255, 87, 87, 0.1);
+            border: 1px solid rgba(255, 87, 87, 0.2);
+            color: #ff5757;
+        }
+
+        #cta {
+            padding: 120px 24px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        #cta::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%; height: 100%;
+            background: radial-gradient(circle at center, rgba(29,161,242,0.06), transparent 60%);
+            pointer-events: none;
+        }
+        #cta::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(90deg, rgba(29,161,242,0.02) 1px, transparent 1px),
+                linear-gradient(0deg, rgba(108,75,255,0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+        }
+        .cta-content {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .cta-content h2 {
+            font-family: var(--font-heading);
+            font-size: clamp(1.6rem, 4vw, 2.6rem);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 28px;
+        }
+        .cta-content .cta-buttons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        footer {
+            background: #070B14;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            padding: 60px 24px 30px;
+            position: relative;
+            z-index: 1;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .footer-brand .footer-logo {
+            height: 48px;
+            width: auto;
+            margin-bottom: 20px;
+            display: block;
+        }
+        .footer-brand p {
+            font-size: 0.85rem;
+            color: rgba(234, 234, 234, 0.4);
+            max-width: 280px;
+            line-height: 1.7;
+        }
+        .footer-col h5 {
+            font-family: var(--font-heading);
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: rgba(234, 234, 234, 0.6);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+        .footer-col ul {
+            list-style: none;
+        }
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+        .footer-col ul li a {
+            color: rgba(234, 234, 234, 0.4);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.3s;
+        }
+        .footer-col ul li a:hover { color: #EAEAEA; }
+        .footer-col ul li span {
+            color: rgba(234, 234, 234, 0.4);
+            font-size: 0.85rem;
+            display: block;
+        }
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 40px auto 0;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .footer-bottom p {
+            font-size: 0.8rem;
+            color: rgba(234, 234, 234, 0.25);
+        }
+        .footer-bottom-links {
+            display: flex;
+            gap: 20px;
+        }
+        .footer-bottom-links a {
+            font-size: 0.8rem;
+            color: rgba(234, 234, 234, 0.25);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer-bottom-links a:hover { color: rgba(234, 234, 234, 0.6); }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+        .reveal-delay-5 { transition-delay: 0.5s; }
+
+        @media (max-width: 1024px) {
+            .about-grid { grid-template-columns: 1fr; gap: 40px; }
+            .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+            .hero-visual { display: none; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 768px) {
+            nav { padding: 14px 20px; }
+            nav.scrolled { padding: 10px 20px; }
+            .nav-links {
+                position: fixed;
+                top: 0; right: -100%;
+                width: 280px; height: 100vh;
+                background: rgba(10, 15, 28, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 80px 32px 40px;
+                gap: 24px;
+                transition: right 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+                border-left: 1px solid rgba(109, 75, 255, 0.1);
+            }
+            .nav-links.open { right: 0; }
+            .nav-toggle { display: flex; }
+            .nav-links .nav-cta { width: 100%; text-align: center; }
+            .hero-title { font-size: clamp(2rem, 7vw, 2.8rem); }
+            .hero-stats { flex-wrap: wrap; gap: 24px; }
+            .services-grid { grid-template-columns: 1fr; }
+            .portfolio-grid { grid-template-columns: 1fr; }
+            .about-cards { grid-template-columns: 1fr; }
+            .diff-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+            section { padding: 70px 20px; }
+            .contact-form .btn { width: 100%; justify-content: center; }
+        }
+        @media (max-width: 480px) {
+            .hero-buttons { flex-direction: column; width: 100%; }
+            .hero-buttons .btn { width: 100%; justify-content: center; }
+            .cta-content .cta-buttons { flex-direction: column; width: 100%; }
+            .cta-content .cta-buttons .btn { width: 100%; justify-content: center; }
+        }
+
+        .typing-cursor {
+            display: inline-block;
+            animation: blink-cursor 0.8s step-end infinite;
+            font-weight: 300;
+            color: rgba(29, 161, 242, 0.8);
+        }
+        @keyframes blink-cursor {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .typing-text {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="preloader">
+        <div class="loader-ring"></div>
+    </div>
+
+    <canvas id="particles-canvas"></canvas>
+
+    <nav id="navbar">
+        <img src="arquivos/logo-dark.png" alt="CUDICORE" class="nav-logo" />
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#about">Sobre</a></li>
+            <li><a href="#services">Serviços</a></li>
+            <li><a href="#tech">Tecnologias</a></li>
+            <li><a href="#portfolio">Projectos</a></li>
+            <li><a href="#contact">Contacto</a></li>
+            <li><a href="#contact" class="nav-cta">Solicitar Projecto</a></li>
+        </ul>
+        <button class="nav-toggle" id="navToggle" aria-label="Abrir menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <section id="hero">
+        <div class="hero-circuit"></div>
+        <div class="hero-visual">
+            <div class="orb"><div class="orb-inner"></div></div>
+            <div class="orb"></div>
+            <div class="orb"></div>
+            <div class="orb"></div>
+        </div>
+        <div class="hero-content">
+            <img src="arquivos/logo-oficial.png" alt="CUDICORE" class="hero-logo" />
+            <div class="hero-badge">
+                <span class="dot"></span>
+                Inovação &bull; Tecnologia &bull; Angola
+            </div>
+            <h1 class="hero-title">
+                Construindo <span class="gradient-text">Sistemas Digitais</span> Inteligentes
+            </h1>
+            <p class="hero-sub">
+                Tecnologia africana com visão global. Soluções inteligentes em <span class="typing-text"></span><span class="typing-cursor">|</span>
+            </p>
+            <div class="hero-buttons">
+                <a href="#services" class="btn btn-primary">Explorar Serviços</a>
+                <a href="#contact" class="btn btn-secondary">Solicitar Projecto</a>
+            </div>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="hero-stat-value">IA</div>
+                    <div class="hero-stat-label">Inteligência Artificial</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value">SaaS</div>
+                    <div class="hero-stat-label">Plataformas Digitais</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value">Angola</div>
+                    <div class="hero-stat-label">Inovação Africana</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="circuit-divider">
+        <svg width="100%" height="100%" viewBox="0 0 1200 80" preserveAspectRatio="none">
+            <defs>
+                <linearGradient id="circuit-gradient" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#1DA1F2" stop-opacity="0" />
+                    <stop offset="30%" stop-color="#1DA1F2" stop-opacity="0.3" />
+                    <stop offset="50%" stop-color="#6C4BFF" stop-opacity="0.4" />
+                    <stop offset="70%" stop-color="#1DA1F2" stop-opacity="0.3" />
+                    <stop offset="100%" stop-color="#6C4BFF" stop-opacity="0" />
+                </linearGradient>
+            </defs>
+            <path d="M0,40 L200,40 L220,20 L400,20 L420,40 L600,40 L620,60 L800,60 L820,40 L1000,40 L1020,20 L1200,20" />
+            <path d="M0,50 L150,50 L170,30 L350,30 L370,50 L550,50 L570,70 L750,70 L770,50 L950,50 L970,30 L1200,30" />
+            <path d="M0,30 L250,30 L270,50 L450,50 L470,30 L650,30 L670,50 L850,50 L870,30 L1100,30 L1120,50 L1200,50" />
+        </svg>
+    </div>
+
+    <section id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-content reveal">
+                    <span class="section-label">Sobre Nós</span>
+                    <h2 class="section-title">Tecnologia africana com <span class="gradient-text">visão global</span></h2>
+                    <p class="section-desc" style="margin-bottom:32px;">
+                        A CUDICORE desenvolve sistemas inteligentes, automações e infraestrutura digital moderna para 
+                        empresas, instituições e empreendedores. Combinamos inteligência artificial, design premium e 
+                        engenharia de software para criar soluções que transformam negócios.
+                    </p>
+                    <div class="about-cards">
+                        <div class="about-card">
+                            <div class="about-card-icon">🎯</div>
+                            <h4>Missão</h4>
+                            <p>Democratizar o acesso à tecnologia inteligente em África</p>
+                        </div>
+                        <div class="about-card">
+                            <div class="about-card-icon">👁️</div>
+                            <h4>Visão</h4>
+                            <p>Ser referência em inovação digital a partir de Angola</p>
+                        </div>
+                        <div class="about-card">
+                            <div class="about-card-icon">💡</div>
+                            <h4>Propósito</h4>
+                            <p>Transformar desafios locais em soluções tecnológicas globais</p>
+                        </div>
+                        <div class="about-card" style="text-align:center;">
+                            <div class="about-card-icon">📍</div>
+                            <h4>Malanje, Angola</h4>
+                            <p>Inovação com raízes africanas</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-visual reveal reveal-delay-2">
+                    <div style="position:relative;width:100%;max-width:400px;">
+                        <div style="padding:32px;border-radius:24px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);backdrop-filter:blur(12px);">
+                            <div style="font-family:'Poppins',sans-serif;font-size:1.1rem;font-weight:600;margin-bottom:20px;">CUDICORE</div>
+                            <div style="display:flex;flex-direction:column;gap:16px;">
+                                <div style="display:flex;align-items:center;gap:10px;">
+                                    <span style="width:8px;height:8px;border-radius:50%;background:#1DA1F2;box-shadow:0 0 10px #1DA1F2;"></span>
+                                    <span style="font-size:0.85rem;color:rgba(234,234,234,0.7);">Sistemas Inteligentes</span>
+                                </div>
+                                <div style="display:flex;align-items:center;gap:10px;">
+                                    <span style="width:8px;height:8px;border-radius:50%;background:#6C4BFF;box-shadow:0 0 10px #6C4BFF;"></span>
+                                    <span style="font-size:0.85rem;color:rgba(234,234,234,0.7);">Automação & IA</span>
+                                </div>
+                                <div style="display:flex;align-items:center;gap:10px;">
+                                    <span style="width:8px;height:8px;border-radius:50%;background:#1DA1F2;box-shadow:0 0 10px #1DA1F2;"></span>
+                                    <span style="font-size:0.85rem;color:rgba(234,234,234,0.7);">Infraestrutura Digital</span>
+                                </div>
+                            </div>
+                            <div style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.05);">
+                                <div style="display:flex;justify-content:space-between;">
+                                    <span style="font-size:0.7rem;color:rgba(234,234,234,0.3);">status</span>
+                                    <span style="font-size:0.7rem;color:#1DA1F2;font-weight:500;">operacional</span>
+                                </div>
+                                <div style="display:flex;justify-content:space-between;margin-top:8px;">
+                                    <span style="font-size:0.7rem;color:rgba(234,234,234,0.3);">sistemas</span>
+                                    <span style="font-size:0.7rem;color:rgba(234,234,234,0.6);">online</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services">
+        <div class="container">
+            <div class="reveal" style="text-align:center;margin-bottom:20px;">
+                <span class="section-label">Serviços</span>
+                <h2 class="section-title" style="max-width:500px;margin:0 auto 20px;">Soluções completas para a <span class="gradient-text">transformação digital</span></h2>
+                <p class="section-desc" style="margin:0 auto;text-align:center;">
+                    Da estratégia à implementação, oferecemos tecnologia inteligente para impulsionar o seu negócio.
+                </p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card reveal reveal-delay-1">
+                    <div class="service-icon">⚡</div>
+                    <div class="service-sub">CUDICORE Systems</div>
+                    <h3>Sistemas Empresariais</h3>
+                    <p>Desenvolvimento de sistemas web, aplicações empresariais e plataformas digitais sob medida para o seu negócio.</p>
+                    <div class="service-tags">
+                        <span>Web</span>
+                        <span>Sistemas</span>
+                        <span>Aplicações</span>
+                    </div>
+                </div>
+                <div class="service-card reveal reveal-delay-2">
+                    <div class="service-icon">🤖</div>
+                    <div class="service-sub">CUDICORE AI</div>
+                    <h3>Inteligência Artificial</h3>
+                    <p>Chatbots inteligentes, automação de processos e agentes de IA que transformam a forma como a sua empresa opera.</p>
+                    <div class="service-tags">
+                        <span>Chatbots</span>
+                        <span>Automação</span>
+                        <span>Agentes IA</span>
+                    </div>
+                </div>
+                <div class="service-card reveal reveal-delay-3">
+                    <div class="service-icon">🎨</div>
+                    <div class="service-sub">CUDICORE Digital</div>
+                    <h3>Presença Digital</h3>
+                    <p>Websites premium, branding estratégico e landing pages de alto impacto para posicionar a sua marca.</p>
+                    <div class="service-tags">
+                        <span>Websites</span>
+                        <span>Branding</span>
+                        <span>Landing Pages</span>
+                    </div>
+                </div>
+                <div class="service-card reveal reveal-delay-4">
+                    <div class="service-icon">🧪</div>
+                    <div class="service-sub">CUDICORE Labs</div>
+                    <h3>Inovação & Pesquisa</h3>
+                    <p>Protótipos tecnológicos, pesquisa aplicada e experimentação em novas fronteiras da tecnologia digital.</p>
+                    <div class="service-tags">
+                        <span>Inovação</span>
+                        <span>Protótipos</span>
+                        <span>Pesquisa</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="tech">
+        <div class="container">
+            <div class="reveal" style="text-align:center;margin-bottom:20px;">
+                <span class="section-label">Stack Tecnológica</span>
+                <h2 class="section-title" style="max-width:500px;margin:0 auto 20px;">Tecnologias que <span class="gradient-text">impulsionam</span> as nossas soluções</h2>
+                <p class="section-desc" style="margin:0 auto;text-align:center;">
+                    Utilizamos as ferramentas mais modernas e robustas do mercado para entregar excelência.
+                </p>
+            </div>
+            <div class="tech-grid" id="techGrid">
+                <div class="tech-item reveal reveal-delay-1">
+                    <div class="tech-icon">⚛️</div>
+                    <span>React</span>
+                </div>
+                <div class="tech-item reveal reveal-delay-1">
+                    <div class="tech-icon">▲</div>
+                    <span>Next.js</span>
+                </div>
+                <div class="tech-item reveal reveal-delay-2">
+                    <div class="tech-icon">🟢</div>
+                    <span>Node.js</span>
+                </div>
+                <div class="tech-item reveal reveal-delay-2">
+                    <div class="tech-icon">🔌</div>
+                    <span>APIs</span>
+                </div>
+                <div class="tech-item reveal reveal-delay-3">
+                    <div class="tech-icon">☁️</div>
+                    <span>Cloud</span>
+                </div>
+                <div class="tech-item reveal reveal-delay-3">
+                    <div class="tech-icon">⚙️</div>
+                    <span>Automação</span>
+                </div>
+                <div class="tech-item reveal reveal-delay-4">
+                    <div class="tech-icon">🧠</div>
+                    <span>Inteligência Artificial</span>
+                </div>
+                <div class="tech-item reveal reveal-delay-4">
+                    <div class="tech-icon">🗄️</div>
+                    <span>Bancos de Dados</span>
+                </div>
+            </div>
+            <div class="tech-connections reveal">
+                <p>
+                    Do front-end ao back-end, da inteligência artificial à infraestrutura cloud — 
+                    cada tecnologia é escolhida para garantir performance, escalabilidade e inovação.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="differentials">
+        <div class="container">
+            <div class="reveal" style="text-align:center;margin-bottom:20px;">
+                <span class="section-label">Diferenciais</span>
+                <h2 class="section-title" style="max-width:500px;margin:0 auto 20px;">Porquê escolher a <span class="gradient-text">CUDICORE</span></h2>
+                <p class="section-desc" style="margin:0 auto;text-align:center;">
+                    O que nos torna únicos no mercado de tecnologia africano.
+                </p>
+            </div>
+            <div class="diff-grid">
+                <div class="diff-card reveal reveal-delay-1">
+                    <div class="diff-icon">🚀</div>
+                    <h4>Inovação Prática</h4>
+                    <p>Tecnologia de ponta aplicada a problemas reais do mercado africano.</p>
+                </div>
+                <div class="diff-card reveal reveal-delay-1">
+                    <div class="diff-icon">📈</div>
+                    <h4>Escalabilidade</h4>
+                    <p>Soluções construídas para crescer com o seu negócio, do início ao enterprise.</p>
+                </div>
+                <div class="diff-card reveal reveal-delay-2">
+                    <div class="diff-icon">⚡</div>
+                    <h4>Automação Inteligente</h4>
+                    <p>Processos automatizados com IA para reduzir custos e aumentar eficiência.</p>
+                </div>
+                <div class="diff-card reveal reveal-delay-2">
+                    <div class="diff-icon">🎯</div>
+                    <h4>Suporte Dedicado</h4>
+                    <p>Acompanhamento próximo e suporte técnico especializado em cada fase do projecto.</p>
+                </div>
+                <div class="diff-card reveal reveal-delay-3">
+                    <div class="diff-icon">✨</div>
+                    <h4>Design Premium</h4>
+                    <p>Interfaces modernas, minimalistas e intuitivas com foco na experiência do utilizador.</p>
+                </div>
+                <div class="diff-card reveal reveal-delay-3">
+                    <div class="diff-icon">🌍</div>
+                    <h4>Visão Global, Raízes Africanas</h4>
+                    <p>Conhecimento local combinado com padrões internacionais de excelência.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio">
+        <div class="container">
+            <div class="reveal" style="text-align:center;margin-bottom:20px;">
+                <span class="section-label">Projectos</span>
+                <h2 class="section-title" style="max-width:500px;margin:0 auto 20px;">Projectos em <span class="gradient-text">desenvolvimento</span></h2>
+                <p class="section-desc" style="margin:0 auto;text-align:center;">
+                    Conheça as soluções que estamos a construir para transformar a educação e a comunicação digital.
+                </p>
+            </div>
+            <div class="portfolio-grid">
+                <div class="portfolio-card reveal reveal-delay-1">
+                    <div class="portfolio-preview">
+                        <div class="mockup-lines"></div>
+                        <div class="mockup-icon">📚</div>
+                    </div>
+                    <div class="portfolio-info">
+                        <span class="portfolio-badge">CUDICORE Systems</span>
+                        <h3>Ímpar</h3>
+                        <p>Sistema de Gestão Escolar moderno focado em organização, administração e digitalização escolar.</p>
+                        <div class="portfolio-tags">
+                            <span>Sistema Web</span>
+                            <span>Gestão Escolar</span>
+                            <span>Digitalização</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="portfolio-card reveal reveal-delay-2">
+                    <div class="portfolio-preview">
+                        <div class="mockup-lines"></div>
+                        <div class="mockup-icon">💬</div>
+                    </div>
+                    <div class="portfolio-info">
+                        <span class="portfolio-badge">CUDICORE AI</span>
+                        <h3>Kudika IA</h3>
+                        <p>Assistente inteligente focado em automação, inteligência artificial e comunicação digital.</p>
+                        <div class="portfolio-tags">
+                            <span>Inteligência Artificial</span>
+                            <span>Chatbot</span>
+                            <span>Automação</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="container">
+            <div class="reveal" style="text-align:center;margin-bottom:40px;">
+                <span class="section-label">Contacto</span>
+                <h2 class="section-title" style="max-width:500px;margin:0 auto 20px;">Vamos <span class="gradient-text">conversar</span></h2>
+                <p class="section-desc" style="margin:0 auto;text-align:center;">
+                    Tem um projecto em mente? Entre em contacto connosco.
+                </p>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-info-box reveal">
+                    <h3>Informações de Contacto</h3>
+                    <p>Estamos disponíveis para ouvir o seu projecto.</p>
+                    <div class="contact-detail">
+                        <div class="icon">📱</div>
+                        <div class="text">
+                            <strong>Telefone / SMS</strong>
+                            <span>+244 944 719 023</span>
+                        </div>
+                    </div>
+                    <div class="contact-detail">
+                        <div class="icon">📍</div>
+                        <div class="text">
+                            <strong>Localização</strong>
+                            <span>Malanje, Angola</span>
+                        </div>
+                    </div>
+                    <div class="contact-detail">
+                        <div class="icon">⏰</div>
+                        <div class="text">
+                            <strong>Horário</strong>
+                            <span>Segunda a Sexta, 08h00 — 17h00</span>
+                        </div>
+                    </div>
+                    <div style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.05);">
+                        <p style="font-size:0.82rem;color:rgba(234,234,234,0.35);">
+                            Envie-nos uma mensagem através do formulário ou SMS. Responderemos o mais breve possível.
+                        </p>
+                    </div>
+                </div>
+                <div class="reveal reveal-delay-2">
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-message" id="formMessage"></div>
+                        <input type="text" name="nome" placeholder="Seu nome" required />
+                        <input type="tel" name="telefone" placeholder="Seu telefone (ex: +244 944 719 023)" required />
+                        <textarea name="mensagem" placeholder="Descreva o seu projecto ou ideia..." required></textarea>
+                        <button type="submit" class="btn btn-primary">Enviar Mensagem</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="cta">
+        <div class="cta-content reveal">
+            <h2>Pronto para transformar o seu negócio com <span class="gradient-text">tecnologia inteligente?</span></h2>
+            <div class="cta-buttons">
+                <a href="#contact" class="btn btn-primary">Solicitar Projecto</a>
+                <a href="#contact" class="btn btn-secondary">Falar com a CUDICORE</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <img src="arquivos/logo-oficial.png" alt="CUDICORE" class="footer-logo" />
+                <p>
+                    Sistemas Digitais Inteligentes. Tecnologia africana com visão global.
+                </p>
+            </div>
+            <div class="footer-col">
+                <h5>Navegação</h5>
+                <ul>
+                    <li><a href="#about">Sobre</a></li>
+                    <li><a href="#services">Serviços</a></li>
+                    <li><a href="#tech">Tecnologias</a></li>
+                    <li><a href="#portfolio">Projectos</a></li>
+                    <li><a href="#contact">Contacto</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Serviços</h5>
+                <ul>
+                    <li><a href="#services">CUDICORE Systems</a></li>
+                    <li><a href="#services">CUDICORE AI</a></li>
+                    <li><a href="#services">CUDICORE Digital</a></li>
+                    <li><a href="#services">CUDICORE Labs</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Contacto</h5>
+                <ul>
+                    <li><span>+244 944 719 023</span></li>
+                    <li><span>Malanje, Angola</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 CUDICORE. Todos os direitos reservados.</p>
+            <div class="footer-bottom-links">
+                <a href="#about">Sobre</a>
+                <a href="#contact">Contacto</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('preloader').classList.add('hidden');
+            }, 300);
+        });
+
+        const navbar = document.getElementById('navbar');
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 60);
+        });
+
+        navToggle.addEventListener('click', () => {
+            navToggle.classList.toggle('active');
+            navLinks.classList.toggle('open');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navToggle.classList.remove('active');
+                navLinks.classList.remove('open');
+            });
+        });
+
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let mouseX = 0, mouseY = 0;
+        let animationId;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = document.documentElement.scrollHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.3;
+                this.speedY = (Math.random() - 0.5) * 0.3;
+                this.opacity = Math.random() * 0.5 + 0.1;
+                this.hue = Math.random() > 0.5 ? 205 : 260;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                    this.reset();
+                }
+                const dx = mouseX - this.x;
+                const dy = mouseY - this.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 150) {
+                    const force = (150 - dist) / 150;
+                    this.x -= dx * force * 0.01;
+                    this.y -= dy * force * 0.01;
+                }
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.hue === 205 
+                    ? `rgba(29, 161, 242, ${this.opacity})`
+                    : `rgba(108, 75, 255, ${this.opacity})`;
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            const count = Math.min(Math.floor(canvas.width * canvas.height / 12000), 100);
+            particles = [];
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle());
+            }
+        }
+        initParticles();
+
+        function connectParticles() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 140) {
+                        const opacity = (1 - dist / 140) * 0.15;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(108, 75, 255, ${opacity})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            connectParticles();
+            animationId = requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        document.addEventListener('mousemove', e => {
+            mouseX = e.clientX;
+            mouseY = e.clientY + window.scrollY;
+        });
+
+        const revealElements = document.querySelectorAll('.reveal');
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        const contactForm = document.getElementById('contactForm');
+        const formMessage = document.getElementById('formMessage');
+
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const nome = contactForm.nome.value.trim();
+            const telefone = contactForm.telefone.value.trim();
+            const mensagem = contactForm.mensagem.value.trim();
+
+            if (!nome || !telefone || !mensagem) {
+                formMessage.className = 'form-message error';
+                formMessage.textContent = 'Por favor, preencha todos os campos.';
+                return;
+            }
+
+            const smsLink = `sms:+244944719023?body=${encodeURIComponent(
+                `Nome: ${nome}\nTelefone: ${telefone}\nMensagem: ${mensagem}`
+            )}`;
+
+            formMessage.className = 'form-message success';
+            formMessage.textContent = 'Redirecionando para enviar SMS...';
+
+            setTimeout(() => {
+                window.location.href = smsLink;
+                setTimeout(() => {
+                    contactForm.reset();
+                    formMessage.textContent = 'Mensagem enviada com sucesso! Aguardamos o seu contacto.';
+                }, 1000);
+            }, 500);
+        });
+
+        const typingTexts = ['IA', 'Automação', 'Sistemas Inteligentes', 'Infraestrutura Digital'];
+        let typingIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typingElement = document.querySelector('.typing-text');
+
+        function typeEffect() {
+            if (!typingElement) return;
+            const current = typingTexts[typingIndex];
+            if (isDeleting) {
+                charIndex--;
+                typingElement.textContent = current.substring(0, charIndex);
+                if (charIndex === 0) {
+                    isDeleting = false;
+                    typingIndex = (typingIndex + 1) % typingTexts.length;
+                    setTimeout(typeEffect, 600);
+                    return;
+                }
+                setTimeout(typeEffect, 40);
+            } else {
+                charIndex++;
+                typingElement.textContent = current.substring(0, charIndex);
+                if (charIndex === current.length) {
+                    isDeleting = true;
+                    setTimeout(typeEffect, 2000);
+                    return;
+                }
+                setTimeout(typeEffect, 80);
+            }
+        }
+        setTimeout(typeEffect, 1000);
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
