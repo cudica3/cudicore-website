@@ -24,8 +24,8 @@ export default function Home() {
       <Section className="min-h-[calc(100vh-64px)] flex items-center justify-center bg-linear-to-b from-background via-background to-card/30 relative overflow-hidden">
         {/* Glow Effect */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl" />
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-brandBlue/20 rounded-full blur-3xl" />
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-brandPurple/20 rounded-full blur-3xl" />
         </div>
 
         <Container>
@@ -73,8 +73,8 @@ export default function Home() {
                   <button
                     className={`px-8 py-3 rounded-lg font-semibold transition-all ${
                       idx === 0
-                        ? "bg-primary text-primary-foreground hover:opacity-90 shadow-lg shadow-primary/25"
-                        : "border border-primary text-primary hover:bg-primary/10"
+                        ? "bg-linear-to-r from-brandBlue to-brandPurple text-white hover:shadow-lg hover:shadow-brandBlue/25 hover:scale-105"
+                        : "border border-brandBlue text-brandBlue hover:bg-brandBlue/10"
                     }`}
                   >
                     {button.label}
@@ -112,16 +112,16 @@ export default function Home() {
             </div>
 
             <motion.div className="grid md:grid-cols-2 gap-6 pt-8" variants={fadeInUp}>
-              <div className="p-6 bg-card border border-border rounded-lg hover:border-primary/50 transition-colors">
-                <h3 className="text-xl font-bold font-heading mb-3 text-primary">Missão</h3>
+              <div className="p-6 bg-card border border-border rounded-lg hover:border-brandBlue/50 transition-all hover:shadow-lg hover:shadow-brandBlue/10">
+                <h3 className="text-xl font-bold font-heading mb-3 text-brandBlue">Missão</h3>
                 <p className="text-muted-foreground">{synares.about.sections.missao.content}</p>
               </div>
-              <div className="p-6 bg-card border border-border rounded-lg hover:border-primary/50 transition-colors">
-                <h3 className="text-xl font-bold font-heading mb-3 text-primary">Valores</h3>
+              <div className="p-6 bg-card border border-border rounded-lg hover:border-brandPurple/50 transition-all hover:shadow-lg hover:shadow-brandPurple/10">
+                <h3 className="text-xl font-bold font-heading mb-3 text-brandPurple">Valores</h3>
                 <ul className="space-y-2">
                   {synares.about.sections.valores.items.map((valor, idx) => (
                     <li key={idx} className="flex gap-2 text-sm text-muted-foreground">
-                      <span className="w-1.5 h-1.5 bg-primary rounded-full mt-2 shrink-0" />
+                      <span className="w-1.5 h-1.5 bg-brandPurple rounded-full mt-2 shrink-0" />
                       {valor.split(":")[0]}
                     </li>
                   ))}
@@ -161,10 +161,10 @@ export default function Home() {
               {synares.pilares.map((pilar, idx) => (
                 <motion.div
                   key={idx}
-                  className="p-6 bg-background rounded-lg border border-border hover:border-primary/50 transition-colors"
+                  className="p-6 bg-background rounded-lg border border-border hover:border-brandBlue/50 transition-all hover:shadow-lg hover:shadow-brandBlue/10 hover:-translate-y-1"
                   variants={fadeInUp}
                 >
-                  <div className="mb-4 text-primary">
+                  <div className="mb-4 text-brandBlue">
                     {iconMap[pilar.icon] || <Zap className="h-8 w-8" />}
                   </div>
                   <h3 className="text-lg font-bold mb-2">{pilar.title}</h3>
@@ -207,10 +207,10 @@ export default function Home() {
               {synares.ecossistema.map((item, idx) => (
                 <motion.div
                   key={idx}
-                  className="p-6 bg-card border border-border rounded-lg hover:border-primary/50 transition-colors"
+                  className="p-6 bg-card border border-border rounded-lg hover:border-brandPurple/50 transition-all hover:shadow-lg hover:shadow-brandPurple/10 hover:-translate-y-1"
                   variants={fadeInUp}
                 >
-                  <div className="mb-4 text-primary">
+                  <div className="mb-4 text-brandPurple">
                     {iconMap[["code", "brain", "zap", "book"][idx]] || <Zap className="h-8 w-8" />}
                   </div>
                   <h3 className="text-lg font-bold mb-2">{item.name}</h3>
@@ -283,12 +283,12 @@ export default function Home() {
               variants={fadeInUp}
             >
               <Link href="/ecossistema">
-                <button className="px-8 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:opacity-90 transition-all shadow-lg shadow-primary/25">
+                <button className="px-8 py-3 bg-linear-to-r from-brandBlue to-brandPurple text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-brandBlue/25 hover:scale-105 transition-all">
                   Conhecer o Projeto
                 </button>
               </Link>
               <Link href="/contacto">
-                <button className="px-8 py-3 border border-primary text-primary rounded-lg font-semibold hover:bg-primary/10 transition-all">
+                <button className="px-8 py-3 border border-brandBlue text-brandBlue rounded-lg font-semibold hover:bg-brandBlue/10 transition-all">
                   Explorar o Ecossistema
                 </button>
               </Link>

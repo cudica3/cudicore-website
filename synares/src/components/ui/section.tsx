@@ -6,7 +6,7 @@ interface SectionProps extends HTMLAttributes<HTMLElement> {
   container?: boolean;
 }
 
-const Section = forwardRef<HTMLElement, SectionProps>(
+const Section = forwardRef<HTMLDivElement, SectionProps>(
   ({ className, as: Component = "section", container = true, children, ...props }, ref) => {
     return (
       <Component

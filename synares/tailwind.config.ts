@@ -1,7 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  darkMode: ["class"],
+  darkMode: "class",
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
@@ -13,24 +13,26 @@ const config: Config = {
         background: "#0B0B0B",
         foreground: "#F5F5F5",
         primary: {
-          DEFAULT: "#2F80ED",
+          DEFAULT: "#00A3FF",
           foreground: "#FFFFFF",
         },
+        brandBlue: "#00A3FF",
+        brandPurple: "#9D4EDD",
         secondary: {
           DEFAULT: "#56CCF2",
           foreground: "#0B0B0B",
         },
         muted: {
-          DEFAULT: "#1A1A1A",
+          DEFAULT: "#111213",
           foreground: "#A0A0A0",
         },
         card: {
-          DEFAULT: "#151515",
+          DEFAULT: "#0F0F0F",
           foreground: "#F5F5F5",
         },
       },
       fontFamily: {
-        heading: ["var(--font-heading)", "serif"],
+        heading: ["var(--font-heading)", "sans-serif"],
         body: ["var(--font-body)", "sans-serif"],
       },
       animation: {
